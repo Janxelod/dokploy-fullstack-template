@@ -1,9 +1,5 @@
 import Image from 'next/image';
-
-import { Link } from '@repo/api/links/entities/link.entity';
-
-import { Card } from '@repo/ui/card';
-import { Button } from '@repo/ui/button';
+import { SendName } from '@repo/ui/sendName';
 
 import styles from './page.module.css';
 
@@ -42,9 +38,7 @@ const RootPage = ({ params }: { params: { forTest?: boolean } }) => {
           height: '50vh',
         }}
       >
-        <Button appName="web (with-nestjs)" className={styles.button}>
-          Click me!
-        </Button>
+        <SendName apiUrl={process.env.NEXT_PUBLIC_API_HOST} />
 
         <div className={styles.hero}>
           <div className={styles.heroContent}>

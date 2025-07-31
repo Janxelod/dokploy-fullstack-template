@@ -1,6 +1,5 @@
 import { Controller, Get, Param } from '@nestjs/common';
 import { AppService } from './app.service';
-import { json } from 'express';
 import { ConfigService } from '@nestjs/config';
 import { GeneralConfig } from './config/general.config';
 
@@ -17,10 +16,10 @@ export class AppController {
   }
 
   @Get('/message/:name')
-  async getMessage(@Param('name') name: string): Promise<string | null> {
+  async getMessage(@Param('name') name: string) {
     const prefix =
       this.configService.get<GeneralConfig>('general')?.messagePrefix;
 
-    return `${prefix} ${name}`;
+    return { message: `${prefix} ${name}` };
   }
 }

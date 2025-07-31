@@ -3,8 +3,13 @@
   "globalDependencies": ["**/.env.*local"],
   "tasks": {
     "start": {
-      "env": ["NEXT_PUBLIC_API_HOST", "MESSAGE_PREFIX"],
-      "passThroughEnv": ["NEXT_PUBLIC_API_HOST", "MESSAGE_PREFIX"],
+      "env": ["NEXT_PUBLIC_API_HOST", "MESSAGE_PREFIX", "FRONTEND_URL", "PORT"],
+      "passThroughEnv": [
+        "NEXT_PUBLIC_API_HOST",
+        "MESSAGE_PREFIX",
+        "FRONTEND_URL",
+        "PORT"
+      ],
       "dependsOn": ["^build"]
     },
     "dev": {
@@ -22,8 +27,13 @@
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
       "outputs": ["dist/**", ".next/**", "!.next/cache/**", "public/dist/**"],
       "dependsOn": ["^build"],
-      "env": ["NEXT_PUBLIC_API_HOST", "MESSAGE_PREFIX"],
-      "passThroughEnv": ["NEXT_PUBLIC_API_HOST", "MESSAGE_PREFIX"]
+      "env": ["NEXT_PUBLIC_API_HOST", "MESSAGE_PREFIX", "FRONTEND_URL", "PORT"],
+      "passThroughEnv": [
+        "NEXT_PUBLIC_API_HOST",
+        "MESSAGE_PREFIX",
+        "FRONTEND_URL",
+        "PORT"
+      ]
     },
     "lint": {},
     "test": {},
