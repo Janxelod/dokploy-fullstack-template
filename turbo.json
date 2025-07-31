@@ -1,0 +1,35 @@
+{
+  "$schema": "https://turborepo.com/schema.json",
+  "globalDependencies": ["**/.env.*local"],
+  "tasks": {
+    "start": {
+      "env": ["NEXT_PUBLIC_API_HOST", "MESSAGE_PREFIX"],
+      "passThroughEnv": ["NEXT_PUBLIC_API_HOST", "MESSAGE_PREFIX"],
+      "dependsOn": ["^build"]
+    },
+    "dev": {
+      "cache": false,
+      "persistent": true,
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        ".env.production.local",
+        ".env.local",
+        ".env.production",
+        ".env"
+      ]
+    },
+    "build": {
+      "inputs": ["$TURBO_DEFAULT$", ".env*"],
+      "outputs": ["dist/**", ".next/**", "!.next/cache/**", "public/dist/**"],
+      "dependsOn": ["^build"],
+      "env": ["NEXT_PUBLIC_API_HOST", "MESSAGE_PREFIX"],
+      "passThroughEnv": ["NEXT_PUBLIC_API_HOST", "MESSAGE_PREFIX"]
+    },
+    "lint": {},
+    "test": {},
+    "test:e2e": {},
+    "clean": {
+      "cache": false
+    }
+  }
+}
