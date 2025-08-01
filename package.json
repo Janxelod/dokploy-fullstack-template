@@ -4,7 +4,6 @@
   "private": true,
   "description": "",
   "author": "",
-  "license": "UNLICENSED",
   "scripts": {
     "dev": "turbo run dev",
     "build": "turbo run build",
