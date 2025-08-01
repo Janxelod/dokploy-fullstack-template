@@ -1,4 +1,4 @@
-name: Build & Push Multiple Docker Images to Harbor
+name: Build & Push Docker Images when main branch is updated
 
 on:
   push:
