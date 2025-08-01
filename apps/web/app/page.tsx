@@ -2,6 +2,7 @@ import Image from 'next/image';
 import { SendName } from '@repo/ui/sendName';
 
 import styles from './page.module.css';
+import { env } from 'next-runtime-env';
 
 const Gradient = ({
   conic,
@@ -26,7 +27,9 @@ const Gradient = ({
   );
 };
 
-const RootPage = ({ params }: { params: { forTest?: boolean } }) => {
+const RootPage = () => {
+  const NEXT_PUBLIC_API_HOST = env('NEXT_PUBLIC_API_HOST');
+
   return (
     <main className={styles.main}>
       <div
@@ -38,7 +41,7 @@ const RootPage = ({ params }: { params: { forTest?: boolean } }) => {
           height: '50vh',
         }}
       >
-        <SendName apiUrl={process.env.NEXT_PUBLIC_API_HOST} />
+        <SendName apiUrl={NEXT_PUBLIC_API_HOST} />
 
         <div className={styles.hero}>
           <div className={styles.heroContent}>

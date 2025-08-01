@@ -105,12 +105,18 @@ importers:
 
   apps/web:
     dependencies:
+      '@next/env':
+        specifier: ^15.4.5
+        version: 15.4.5
       '@repo/ui':
         specifier: workspace:*
         version: link:../../packages/ui
       next:
         specifier: ^14.1.1
         version: 14.1.1(@babel/core@7.26.10)(react-dom@18.2.0)(react@18.2.0)
+      next-runtime-env:
+        specifier: ^3.3.0
+        version: 3.3.0(next@14.1.1)(react@18.2.0)
       react:
         specifier: ^18.2.0
         version: 18.2.0
@@ -1497,6 +1503,10 @@ packages:
 
   /@next/env@14.1.1:
     resolution: {integrity: sha512-7CnQyD5G8shHxQIIg3c7/pSeYFeMhsNbpU/bmvH7ZnDql7mNRgg8O2JZrhrc/soFnfBnKP4/xXNiiSIPn2w8gA==}
+
+  /@next/env@15.4.5:
+    resolution: {integrity: sha512-ruM+q2SCOVCepUiERoxOmZY9ZVoecR3gcXNwCYZRvQQWRjhOiPJGmQ2fAiLR6YKWXcSAh7G79KEFxN3rwhs4LQ==}
+    dev: false
 
   /@next/eslint-plugin-next@14.1.1:
     resolution: {integrity: sha512-NP1WoGFnFLpqqCWgGFjnn/sTwUExdPyjeFKRdQP1X/bL/tjAQ/TXDmYqw6vzGaP5NaZ2u6xzg+N/0nd7fOPOGQ==}
@@ -6808,6 +6818,16 @@ packages:
     resolution: {integrity: sha512-dBpDMdxv9Irdq66304OLfEmQ9tbNRFnFTuZiLo+bD+r332bBmMJ8GBLXklIXXgxd3+v9+KUnZaUR5PJMa75Gsg==}
     engines: {node: '>= 0.4.0'}
     dev: true
+
+  /next-runtime-env@3.3.0(next@14.1.1)(react@18.2.0):
+    resolution: {integrity: sha512-JgKVnog9mNbjbjH9csVpMnz2tB2cT5sLF+7O47i6Ze/s/GoiKdV7dHhJHk1gwXpo6h5qPj5PTzryldtSjvrHuQ==}
+    peerDependencies:
+      next: ^14
+      react: ^18
+    dependencies:
+      next: 14.1.1(@babel/core@7.26.10)(react-dom@18.2.0)(react@18.2.0)
+      react: 18.2.0
+    dev: false
 
   /next@14.1.1(@babel/core@7.26.10)(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-McrGJqlGSHeaz2yTRPkEucxQKe5Zq7uPwyeHNmJaZNY4wx9E9QdxmTp310agFRoMuIYgQrCrT3petg13fSVOww==}
