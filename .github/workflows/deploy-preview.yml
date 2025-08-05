@@ -8,6 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Deploying API
+        id: deploy_api
         uses: fjogeleit/http-request-action@v1
         with:
           url: '${{secrets.DEPLOY_API_URL}}'
@@ -15,9 +16,36 @@ jobs:
           data: '{"sourceProjectName": "${{secrets.SOURCE_PROJECT_NAME}}", "serviceName": "api", "branchName": "${{ github.head_ref || github.ref_name }}","sourceAppId": "${{ secrets.SOURCE_API_APP_ID }}", "projectId": "${{ secrets.PROJECT_ID }}"}'
           # headers: "{\"Authorization\": \"Bearer ${{ secrets.API_KEY }}\"}"
       - name: Deploying Frontend
+        id: deploy_frontend
         uses: fjogeleit/http-request-action@v1
         with:
           url: '${{secrets.DEPLOY_API_URL}}'
           method: 'POST'
           data: '{"sourceProjectName": "${{secrets.SOURCE_PROJECT_NAME}}", "serviceName": "frontend", "branchName": "${{ github.head_ref || github.ref_name }}","sourceAppId": "${{ secrets.SOURCE_FRONTEND_APP_ID }}", "projectId": "${{ secrets.PROJECT_ID }}"}'
         # headers: "{\"Authorization\": \"Bearer ${{ secrets.API_KEY }}\"}"
+      - name: Find Comment
+        uses: peter-evans/find-comment@v3
+        id: find_comment
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          comment-author: 'github-actions[bot]'
+          body-includes: This comment was written by a bot!
+      - name: Create comment
+        if: steps.find_comment.outputs.comment_id == ''
+        uses: peter-evans/create-or-update-comment@v4
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          body: |
+            Preview URL: [API](http://${{ steps.deploy_api.outputs.response.previewDomain }}) | [Frontend](http://${{ steps.deploy_frontend.outputs.response.previewDomain }})
+            This comment was written by a bot!
+          reactions: rocket
+      - name: Update comment
+        if: steps.find_comment.outputs.comment_id != ''
+        uses: peter-evans/create-or-update-comment@v4
+        with:
+          comment-id: ${{ steps.find_comment.outputs.comment_id }}
+          body: |
+            **Edit:** 
+            Preview URL: [API](http://${{ steps.deploy_api.outputs.response.previewDomain }}) | [Frontend](http://${{ steps.deploy_frontend.outputs.response.previewDomain }})
+            This comment was written by a bot!
+          reactions: hooray
