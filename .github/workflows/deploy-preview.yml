@@ -51,7 +51,7 @@ jobs:
           edit-mode: replace
           body: |
             **Edit:** 
-            Preview URL: [API](https://${{ steps.deploy_api.outputs.response.previewDomain }}) | [Frontend](http://${{ steps.deploy_frontend.outputs.response.previewDomain }})
+            Preview URL: [API](http://www.test12345.com) | [Frontend](https://${{ steps.deploy_frontend.outputs.response.previewDomain }})
             ${{steps.deploy_api.outputs.response}}
             ${{steps.deploy_frontend.outputs.response}}
             This comment was written by a bot!
