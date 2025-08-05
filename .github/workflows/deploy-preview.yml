@@ -38,7 +38,9 @@ jobs:
           body: |
             Preview URL: [API](http://${{ steps.deploy_api.outputs.response.previewDomain }}) | [Frontend](http://${{ steps.deploy_frontend.outputs.response.previewDomain }})
             This comment was written by a bot!
-          reactions: rocket
+          reactions: |
+            rocket
+            rocket
       - name: Update comment
         if: steps.find_comment.outputs.comment-id != ''
         uses: peter-evans/create-or-update-comment@v4
