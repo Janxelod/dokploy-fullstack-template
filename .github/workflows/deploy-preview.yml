@@ -1,0 +1,21 @@
+name: Deploy Docker Image on Pull Request
+
+on:
+  workflow_call:
+
+jobs:
+  deploy-preview:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploying API
+        uses: dkershner6/post-api-call-action@v2
+        with:
+          url: ${{ secrets.DEPLOY_API_URL }}
+          data: '{\"sourceProjectName\": \"${{secrets.SOURCE_PROJECT_NAME}}\", \"serviceName\": \"api\", \"branchName\": \"${{ github.head_ref || github.ref_name }}\",\"sourceAppId\": \"${{ secrets.SOURCE_API_APP_ID }}\", \"projectId\": \"${{ secrets.PROJECT_ID }}\"}'
+          # headers: "{\"Authorization\": \"Bearer ${{ secrets.API_KEY }}\"}"
+      - name: Deploying Frontend
+        uses: dkershner6/post-api-call-action@v2
+        with:
+          url: ${{ secrets.DEPLOY_API_URL }}
+          data: '{\"sourceProjectName\": \"${{secrets.SOURCE_PROJECT_NAME}}\", \"serviceName\": \"frontend\", \"branchName\": \"${{ github.head_ref || github.ref_name }}\",\"sourceAppId\": \"${{ secrets.SOURCE_FRONTEND_APP_ID }}\", \"projectId\": \"${{ secrets.PROJECT_ID }}\"}'
+        # headers: "{\"Authorization\": \"Bearer ${{ secrets.API_KEY }}\"}"
