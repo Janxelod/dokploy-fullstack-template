@@ -10,14 +10,14 @@ jobs:
       - name: Deploying API
         uses: fjogeleit/http-request-action@v1
         with:
-          url: "http://utils-previewmanager-ykqrff-7a7259-165-22-66-151.traefik.me/api/deploy-preview-app"
-          method: "POST"
-          data: "{\"sourceProjectName\": \"${{secrets.SOURCE_PROJECT_NAME}}\", \"serviceName\": \"api\", \"branchName\": \"${{ github.head_ref || github.ref_name }}\",\"sourceAppId\": \"${{ secrets.SOURCE_API_APP_ID }}\", \"projectId\": \"${{ secrets.PROJECT_ID }}\"}"
+          url: '${{secrets.DEPLOY_API_URL}}'
+          method: 'POST'
+          data: '{"sourceProjectName": "${{secrets.SOURCE_PROJECT_NAME}}", "serviceName": "api", "branchName": "${{ github.head_ref || github.ref_name }}","sourceAppId": "${{ secrets.SOURCE_API_APP_ID }}", "projectId": "${{ secrets.PROJECT_ID }}"}'
           # headers: "{\"Authorization\": \"Bearer ${{ secrets.API_KEY }}\"}"
       - name: Deploying Frontend
         uses: fjogeleit/http-request-action@v1
         with:
-          url: "http://utils-previewmanager-ykqrff-7a7259-165-22-66-151.traefik.me/api/deploy-preview-app"
-          method: "POST"
-          data: "{\"sourceProjectName\": \"${{secrets.SOURCE_PROJECT_NAME}}\", \"serviceName\": \"frontend\", \"branchName\": \"${{ github.head_ref || github.ref_name }}\",\"sourceAppId\": \"${{ secrets.SOURCE_FRONTEND_APP_ID }}\", \"projectId\": \"${{ secrets.PROJECT_ID }}\"}"
+          url: 'http://utils-previewmanager-ykqrff-7a7259-165-22-66-151.traefik.me/api/deploy-preview-app'
+          method: 'POST'
+          data: '{"sourceProjectName": "${{secrets.SOURCE_PROJECT_NAME}}", "serviceName": "frontend", "branchName": "${{ github.head_ref || github.ref_name }}","sourceAppId": "${{ secrets.SOURCE_FRONTEND_APP_ID }}", "projectId": "${{ secrets.PROJECT_ID }}"}'
         # headers: "{\"Authorization\": \"Bearer ${{ secrets.API_KEY }}\"}"
