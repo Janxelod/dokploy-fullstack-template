@@ -36,7 +36,7 @@ jobs:
         with:
           issue-number: ${{ github.event.pull_request.number }}
           body: |
-            Preview URL: [API]: http://${{ steps.deploy_api.outputs.response.previewDomain }}) | [Frontend](http://${{ steps.deploy_frontend.outputs.response.previewDomain }})
+            Preview URL: [API]: https://${{ steps.deploy_api.outputs.response.previewDomain }}) | [Frontend](https://${{ steps.deploy_frontend.outputs.response.previewDomain }})
             ${{steps.deploy_api.outputs.response}}
             ${{steps.deploy_frontend.outputs.response}}
             This comment was written by a bot!
@@ -50,7 +50,7 @@ jobs:
           comment-id: ${{ steps.find_comment.outputs.comment-id }}
           body: |
             **Edit:** 
-            Preview URL: [API](http://${{ steps.deploy_api.outputs.response.previewDomain }}) | [Frontend](http://${{ steps.deploy_frontend.outputs.response.previewDomain }})
+            Preview URL: [API](https://${{ steps.deploy_api.outputs.response.previewDomain }}) | [Frontend](https://${{ steps.deploy_frontend.outputs.response.previewDomain }})
             ${{steps.deploy_api.outputs.response}}
             ${{steps.deploy_frontend.outputs.response}}
             This comment was written by a bot!
