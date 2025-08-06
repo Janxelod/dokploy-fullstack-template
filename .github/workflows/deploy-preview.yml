@@ -24,9 +24,9 @@ jobs:
           data: '{"sourceProjectName": "${{secrets.SOURCE_PROJECT_NAME}}", "serviceName": "frontend", "branchName": "${{ github.head_ref || github.ref_name }}","sourceAppId": "${{ secrets.SOURCE_FRONTEND_APP_ID }}", "projectId": "${{ secrets.PROJECT_ID }}"}'
         # headers: "{\"Authorization\": \"Bearer ${{ secrets.API_KEY }}\"}"
       - name: Save API output in ENV
-        run: echo "PREVIEW_API_URL=http://${{ steps.deploy_api.outputs.response.previewDomain }}" >> $GITHUB_ENV
+        run: echo 'PREVIEW_API_URL=http://"${{ steps.deploy_api.outputs.response.previewDomain }}"' >> $GITHUB_ENV
       - name: Save Frontend output in ENV
-        run: echo "PREVIEW_FRONTEND_URL=http://${{ steps.deploy_frontend.outputs.response.previewDomain }}" >> $GITHUB_ENV
+        run: echo 'PREVIEW_FRONTEND_URL=http://"${{ steps.deploy_frontend.outputs.response.previewDomain }}"' >> $GITHUB_ENV
       - name: Find Comment
         uses: peter-evans/find-comment@v3
         id: find_comment
