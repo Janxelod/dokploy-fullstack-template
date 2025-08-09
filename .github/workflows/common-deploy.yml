@@ -1,8 +1,7 @@
-name: Build & Push Multiple Docker Images to Harbor
+name: Build & Push Docker Images when the branch is updated
 
 on:
-  push:
-    branches: ['main']
+  workflow_call:
 
 jobs:
   lint:
@@ -48,7 +47,7 @@ jobs:
           file: ./apps/api/Dockerfile
           push: true
           platforms: linux/amd64
-          tags: ${{ secrets.HARBOR_REGISTRY }}/test/api:latest
+          tags: ${{ secrets.HARBOR_REGISTRY }}/test/api/${{ github.head_ref || github.ref_name}}:latest
 
       # ─── build & push Web image ─────────────────────────────────────────
       - name: Build & Push Next.js image
@@ -58,4 +57,4 @@ jobs:
           file: ./apps/web/Dockerfile
           push: true
           platforms: linux/amd64
-          tags: ${{ secrets.HARBOR_REGISTRY }}/test/frontend:latest
+          tags: ${{ secrets.HARBOR_REGISTRY }}/test/frontend/${{ github.head_ref || github.ref_name}}:latest

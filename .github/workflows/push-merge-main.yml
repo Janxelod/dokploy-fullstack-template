@@ -1,0 +1,9 @@
+name: Build & Push Docker Images when main branch is updated
+
+on:
+  push:
+    branches: ['main']
+jobs:
+  build_and_deploy:
+    uses: ./.github/workflows/common-deploy.yml
+    secrets: inherit
