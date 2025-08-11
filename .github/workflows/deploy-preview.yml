@@ -11,14 +11,16 @@ jobs:
         id: user_auth
         uses: fjogeleit/http-request-action@v1
         with:
-          url: '${{secrets.DEPLOY_AUTH_URL}}'
+          url: '${{secrets.DEPLOY_AUTH_URL}}/login'
           method: 'POST'
+          data: '{"userName": "${{secrets.DEPLOY_USERNAME}}", "password": "${{secrets.DEPLOY_PASSWORD}}"}'
       - name: Deploying API
         id: deploy_api
         uses: fjogeleit/http-request-action@v1
         with:
           url: '${{secrets.DEPLOY_API_URL}}'
           method: 'POST'
+          bearerToken: bearer ${{ fromJson(steps.user_auth.outputs.response).accessToken }}
           data: '{"sourceProjectName": "${{secrets.SOURCE_PROJECT_NAME}}", "serviceName": "api", "branchName": "${{ github.head_ref || github.ref_name }}","sourceAppId": "${{ secrets.SOURCE_API_APP_ID }}", "projectId": "${{ secrets.PROJECT_ID }}"}'
           # headers: "{\"Authorization\": \"Bearer ${{ secrets.API_KEY }}\"}"
       - name: Deploying Frontend
@@ -27,6 +29,7 @@ jobs:
         with:
           url: '${{secrets.DEPLOY_API_URL}}'
           method: 'POST'
+          bearerToken: bearer ${{ fromJson(steps.user_auth.outputs.response).accessToken }}
           data: '{"sourceProjectName": "${{secrets.SOURCE_PROJECT_NAME}}", "serviceName": "frontend", "branchName": "${{ github.head_ref || github.ref_name }}","sourceAppId": "${{ secrets.SOURCE_FRONTEND_APP_ID }}", "projectId": "${{ secrets.PROJECT_ID }}"}'
         # headers: "{\"Authorization\": \"Bearer ${{ secrets.API_KEY }}\"}"
       - name: Save API output in ENV
