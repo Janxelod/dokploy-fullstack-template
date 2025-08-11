@@ -7,6 +7,12 @@ jobs:
   deploy-preview:
     runs-on: ubuntu-latest
     steps:
+      - name: Authenticate user
+        id: user_auth
+        uses: fjogeleit/http-request-action@v1
+        with:
+          url: '${{secrets.DEPLOY_AUTH_URL}}'
+          method: 'POST'
       - name: Deploying API
         id: deploy_api
         uses: fjogeleit/http-request-action@v1
