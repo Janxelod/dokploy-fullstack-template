@@ -21,8 +21,7 @@ jobs:
           url: '${{secrets.DEPLOY_API_URL}}'
           method: 'POST'
           bearerToken: ${{ fromJson(steps.user_auth.outputs.response).accessToken }}
-          data: '{"sourceProjectName": "${{secrets.SOURCE_PROJECT_NAME}}", "serviceName": "api", "branchName": "${{ github.head_ref || github.ref_name }}","sourceAppId": "${{ secrets.SOURCE_API_APP_ID }}", "projectId": "${{ secrets.PROJECT_ID }}"}'
-          # headers: "{\"Authorization\": \"Bearer ${{ secrets.API_KEY }}\"}"
+          data: '{"sourceProjectName": "${{secrets.SOURCE_PROJECT_NAME}}", "serviceName": "api", "branchName": "${{ github.head_ref || github.ref_name }}","sourceAppId": "${{ secrets.SOURCE_API_APP_ID }}", "projectId": "${{ secrets.PROJECT_ID }}", "options": {"replaceEnvVar": {"key": "FRONTEND_URL", "newValue": "https://${{ secrets.SOURCE_PROJECT_NAME }}-frontend-${{ github.head_ref || github.ref_name }}.${{secrets.PREVIEW_DOMAIN_SUFFIX}}"}}}'
       - name: Deploying Frontend
         id: deploy_frontend
         uses: fjogeleit/http-request-action@v1
@@ -30,32 +29,13 @@ jobs:
           url: '${{secrets.DEPLOY_API_URL}}'
           method: 'POST'
           bearerToken: ${{ fromJson(steps.user_auth.outputs.response).accessToken }}
-          data: '{"sourceProjectName": "${{secrets.SOURCE_PROJECT_NAME}}", "serviceName": "frontend", "branchName": "${{ github.head_ref || github.ref_name }}","sourceAppId": "${{ secrets.SOURCE_FRONTEND_APP_ID }}", "projectId": "${{ secrets.PROJECT_ID }}"}'
-        # headers: "{\"Authorization\": \"Bearer ${{ secrets.API_KEY }}\"}"
+          data: '{"sourceProjectName": "${{secrets.SOURCE_PROJECT_NAME}}", "serviceName": "frontend", "branchName": "${{ github.head_ref || github.ref_name }}","sourceAppId": "${{ secrets.SOURCE_FRONTEND_APP_ID }}", "projectId": "${{ secrets.PROJECT_ID }}", "options": {"replaceEnvVar": {"key": "NEXT_PUBLIC_API_HOST", "newValue": "https://${{ secrets.SOURCE_PROJECT_NAME }}-api-${{ github.head_ref || github.ref_name }}.${{secrets.PREVIEW_DOMAIN_SUFFIX}}"}}}'
       - name: Save API output in ENV
         run: |
           echo 'PREVIEW_API_URL=https://${{ fromJson(steps.deploy_api.outputs.response).previewDomain }}' >> $GITHUB_ENV
-          echo 'PREVIEW_API_ID=${{ fromJson(steps.deploy_api.outputs.response).previewAppId }}' >> $GITHUB_ENV
       - name: Save Frontend output in ENV
         run: |
           echo 'PREVIEW_FRONTEND_URL=https://${{ fromJson(steps.deploy_frontend.outputs.response).previewDomain }}' >> $GITHUB_ENV
-          echo 'PREVIEW_FRONTEND_ID=${{ fromJson(steps.deploy_frontend.outputs.response).previewAppId }}' >> $GITHUB_ENV\
-      - name: Wait deployment end before updating environment variables
-        run: sleep 6
-      - name: Update Environment variables in API
-        uses: fjogeleit/http-request-action@v1
-        with:
-          url: '${{secrets.REPLACE_ENV_VAR_API_URL}}'
-          method: 'POST'
-          bearerToken: ${{ fromJson(steps.user_auth.outputs.response).accessToken }}
-          data: '{"sourceAppId": "${{ secrets.SOURCE_API_APP_ID }}",  "previewAppId": "${{ env.PREVIEW_API_ID }}", "key": "FRONTEND_URL", "newValue": "${{ env.PREVIEW_FRONTEND_URL }}"}'
-      - name: Update Environment variables in Frontend
-        uses: fjogeleit/http-request-action@v1
-        with:
-          url: '${{secrets.REPLACE_ENV_VAR_API_URL}}'
-          method: 'POST'
-          bearerToken: ${{ fromJson(steps.user_auth.outputs.response).accessToken }}
-          data: '{"sourceAppId": "${{ secrets.SOURCE_FRONTEND_APP_ID }}",  "previewAppId": "${{ env.PREVIEW_FRONTEND_ID }}", "key": "NEXT_PUBLIC_API_HOST", "newValue": "${{ env.PREVIEW_API_URL }}"}'
       - name: Find Comment
         uses: peter-evans/find-comment@v3
         id: find_comment
