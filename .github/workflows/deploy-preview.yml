@@ -39,7 +39,9 @@ jobs:
       - name: Save Frontend output in ENV
         run: |
           echo 'PREVIEW_FRONTEND_URL=https://${{ fromJson(steps.deploy_frontend.outputs.response).previewDomain }}' >> $GITHUB_ENV
-          echo 'PREVIEW_FRONTEND_ID=${{ fromJson(steps.deploy_frontend.outputs.response).previewAppId }}' >> $GITHUB_ENV
+          echo 'PREVIEW_FRONTEND_ID=${{ fromJson(steps.deploy_frontend.outputs.response).previewAppId }}' >> $GITHUB_ENV\
+      - name: Wait deployment end before updating environment variables
+        run: sleep 6
       - name: Update Environment variables in API
         uses: fjogeleit/http-request-action@v1
         with:
