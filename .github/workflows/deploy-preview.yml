@@ -34,11 +34,11 @@ jobs:
         # headers: "{\"Authorization\": \"Bearer ${{ secrets.API_KEY }}\"}"
       - name: Save API output in ENV
         run: |
-          echo 'PREVIEW_API_URL=http://${{ fromJson(steps.deploy_api.outputs.response).previewDomain }}' >> $GITHUB_ENV
+          echo 'PREVIEW_API_URL=https://${{ fromJson(steps.deploy_api.outputs.response).previewDomain }}' >> $GITHUB_ENV
           echo 'PREVIEW_API_ID=${{ fromJson(steps.deploy_api.outputs.response).previewAppId }}' >> $GITHUB_ENV
       - name: Save Frontend output in ENV
         run: |
-          echo 'PREVIEW_FRONTEND_URL=http://${{ fromJson(steps.deploy_frontend.outputs.response).previewDomain }}' >> $GITHUB_ENV
+          echo 'PREVIEW_FRONTEND_URL=https://${{ fromJson(steps.deploy_frontend.outputs.response).previewDomain }}' >> $GITHUB_ENV
           echo 'PREVIEW_FRONTEND_ID=${{ fromJson(steps.deploy_frontend.outputs.response).previewAppId }}' >> $GITHUB_ENV
       - name: Update Environment variables in API
         uses: fjogeleit/http-request-action@v1
